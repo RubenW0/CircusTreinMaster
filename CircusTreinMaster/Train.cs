@@ -64,6 +64,8 @@ namespace CircusTreinMaster
         private int PlaceAnimalsInWagons(List<Animal> animals)
         {
             wagonList.Clear();
+            experimentalWagonCount = 0;
+
             foreach (var animal in animals)
             {
                 if (!TryToAddAnimalToExistingWagons(animal))
@@ -76,35 +78,58 @@ namespace CircusTreinMaster
 
         private void AddAnimalToNewWagon(Animal animal)
         {
-            Wagon wagon = new Wagon();
-            wagonList.Add(wagon);
-            wagon.CanAddAnimal(animal);
+            Wagon wagon;
+            if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
+            {
+                wagon = new ExperimentalWagon();
+                experimentalWagonCount++;
+            }
+            else
+            {
+                wagon = new Wagon();
+            }
+
+            if (wagon.CanAddAnimal(animal))
+            {
+                wagon.AddAnimal(animal);
+                wagonList.Add(wagon);
+            }
         }
 
         private bool TryToAddAnimalToExistingWagons(Animal animal)
         {
-            foreach (var wagon in wagonList)
+            foreach (var wagon in wagonList.OfType<ExperimentalWagon>())
             {
                 if (wagon.CanAddAnimal(animal))
                 {
+                    wagon.AddAnimal(animal); 
                     return true;
                 }
-
-                if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
-                {
-                    var expWagon = new ExperimentalWagon();
-                    if (expWagon.CanAddAnimal(animal))
-                    {
-                        wagonList.Add(expWagon);
-                        experimentalWagonCount++;
-                        return true;
-                    }
-                }
-
             }
+
+            foreach (var wagon in wagonList.Where(w => !(w is ExperimentalWagon)))
+            {
+                if (wagon.CanAddAnimal(animal))
+                {
+                    wagon.AddAnimal(animal); 
+                    return true;
+                }
+            }
+
+            if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
+            {
+                var newExpWagon = new ExperimentalWagon();
+                if (newExpWagon.CanAddAnimal(animal))
+                {
+                    newExpWagon.AddAnimal(animal);
+                    wagonList.Add(newExpWagon);
+                    experimentalWagonCount++;
+                    return true;
+                }
+            }
+
             return false;
         }
-
 
         public int GetWagonCount()
         {

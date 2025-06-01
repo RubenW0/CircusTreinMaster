@@ -26,6 +26,8 @@ namespace Circustrein
             train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
             train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
             train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
+            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
+
 
             train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
             train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
@@ -61,12 +63,15 @@ namespace Circustrein
             var wagons = train.GetWagons();
             for (int i = 0; i < wagons.Count(); i++)
             {
-                Console.WriteLine($"Wagon {i + 1}:");
+                string wagonType = wagons[i] is ExperimentalWagon ? "Experimental" : "Regular";
+
+                Console.WriteLine($"Wagon {i + 1} ({wagonType}):");
+
                 foreach (var animal in wagons[i].GetAnimals())
                 {
                     Console.WriteLine($"- {animal.GetDiet()} {animal.GetSize()}");
-
                 }
+
                 Console.WriteLine();
             }
         }

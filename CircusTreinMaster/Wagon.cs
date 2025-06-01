@@ -37,21 +37,21 @@ namespace CircusTreinMaster
                 return false;
             }
 
-            foreach (var excistingAnimal in animalsInWagon)
+            foreach (var existingAnimal in animalsInWagon)
             {
-                if (!animal.CanCoexistWith(excistingAnimal))
+                if (!animal.CanCoexistWith(existingAnimal))
                 {
                     return false;
                 }
             }
 
-            animalsInWagon.Add(animal);
-            return true;
-
-
-
+            return true; 
         }
 
+        public void AddAnimal(Animal animal)
+        {
+            animalsInWagon.Add(animal);
+        }
 
     }
 }

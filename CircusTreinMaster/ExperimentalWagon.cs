@@ -25,14 +25,13 @@ namespace CircusTreinMaster
                 if ((existing.GetDiet() == Animal.Diet.Carnivore && animal.GetDiet() == Animal.Diet.Carnivore) ||
                     (existing.GetDiet() != animal.GetDiet()))
                 {
-                    animalsInWagon.Add(animal);
-                    return true;
+                    return true; 
                 }
                 return false;
             }
 
-            animalsInWagon.Add(animal);
             return true;
         }
+
     }
 }
