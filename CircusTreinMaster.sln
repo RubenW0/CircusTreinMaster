@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircusTreinMaster", "CircusTreinMaster\CircusTreinMaster.csproj", "{702B10C6-B116-41C3-998E-B43D22222049}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCircusTreinMaster", "TestCircusTreinMaster\TestCircusTreinMaster.csproj", "{990E014C-6D1F-4A61-916C-458142918A5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{702B10C6-B116-41C3-998E-B43D22222049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{702B10C6-B116-41C3-998E-B43D22222049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{702B10C6-B116-41C3-998E-B43D22222049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{990E014C-6D1F-4A61-916C-458142918A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{990E014C-6D1F-4A61-916C-458142918A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{990E014C-6D1F-4A61-916C-458142918A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{990E014C-6D1F-4A61-916C-458142918A5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

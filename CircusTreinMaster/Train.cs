@@ -98,6 +98,7 @@ namespace CircusTreinMaster
 
         private bool TryToAddAnimalToExistingWagons(Animal animal)
         {
+            // Try to add to experimental wagons first
             foreach (var wagon in wagonList.OfType<ExperimentalWagon>())
             {
                 if (wagon.CanAddAnimal(animal))
@@ -107,6 +108,7 @@ namespace CircusTreinMaster
                 }
             }
 
+            // Then try to add to regular wagons
             foreach (var wagon in wagonList.Where(w => !(w is ExperimentalWagon)))
             {
                 if (wagon.CanAddAnimal(animal))
@@ -116,6 +118,7 @@ namespace CircusTreinMaster
                 }
             }
 
+            // If no existing wagon can take the animal, create a new one
             if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
             {
                 var newExpWagon = new ExperimentalWagon();
