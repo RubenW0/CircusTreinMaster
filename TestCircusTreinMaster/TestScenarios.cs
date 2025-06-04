@@ -173,8 +173,29 @@ namespace TestCircusTreinMaster
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 13;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 13.");
+            int expectedWagonCount = 11;
+            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 11.");
         }
+
+        [TestMethod]
+        public void NumberOfWagonsScenarioExperimentalWagons() 
+        {
+            // Arrange
+            var train = new Train();
+            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+
+            // Act
+            train.SortAnimals();
+            train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
+
+            // Assert
+            int expectedWagonCount = 2;
+            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 2.");
+        }
+
     }
 }

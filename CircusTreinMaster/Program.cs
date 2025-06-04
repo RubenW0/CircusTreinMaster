@@ -23,13 +23,18 @@ namespace Circustrein
             //train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
             //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
 
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            //train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
+            //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
+            //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
+            //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            //train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
 
+            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium)); 
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)); 
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)); 
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)); 
+            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
 
 
             train.SortAnimals();

@@ -13,7 +13,6 @@ namespace CircusTreinMaster
         public List<Animal> animalsAscending;
         public List<Animal> animalsDescending;
 
-        private int experimentalWagonCount = 0;
         private const int MaxExperimentalWagons = 4;
 
         public Train()
@@ -50,88 +49,189 @@ namespace CircusTreinMaster
 
         public void PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient()
         {
+            List<Animal> animalsAscCopy = new List<Animal>(animalsAscending);
+            List<Animal> animalsDescCopy = new List<Animal>(animalsDescending);
 
+            List<Wagon> wagonsAscExperimental = TryPlacingAnimals(animalsAscCopy);
+            List<Wagon> wagonsDescExperimental = TryPlacingAnimals(animalsDescCopy);
 
-            if (PlaceAnimalsInWagons(animalsAscending) <= PlaceAnimalsInWagons(animalsDescending))
+            List<Wagon> wagonsAscRegular = PlaceAnimalsInRegularWagonsOnly(animalsAscending);
+            List<Wagon> wagonsDescRegular = PlaceAnimalsInRegularWagonsOnly(animalsDescending);
+
+            List<Wagon> bestExperimental;
+            if (wagonsAscExperimental.Count <= wagonsDescExperimental.Count)
             {
-                PlaceAnimalsInWagons(animalsAscending);
+                bestExperimental = wagonsAscExperimental;
             }
             else
             {
-                PlaceAnimalsInWagons(animalsDescending);
+                bestExperimental = wagonsDescExperimental;
             }
-        }
-        private int PlaceAnimalsInWagons(List<Animal> animals)
-        {
-            wagonList.Clear();
-            experimentalWagonCount = 0;
 
-            foreach (var animal in animals)
+            List<Wagon> bestRegular;
+            if (wagonsAscRegular.Count <= wagonsDescRegular.Count)
             {
-                if (!TryToAddAnimalToExistingWagons(animal))
-                {
-                    AddAnimalToNewWagon(animal);
-                }
-            }
-            return wagonList.Count;
-        }
-
-        private void AddAnimalToNewWagon(Animal animal)
-        {
-            Wagon wagon;
-            if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
-            {
-                wagon = new ExperimentalWagon();
-                experimentalWagonCount++;
+                bestRegular = wagonsAscRegular;
             }
             else
             {
-                wagon = new Wagon();
+                bestRegular = wagonsDescRegular;
             }
 
-            if (wagon.CanAddAnimal(animal))
+            if (bestExperimental.Count < bestRegular.Count)
             {
-                wagon.AddAnimal(animal);
-                wagonList.Add(wagon);
+                wagonList = bestExperimental;
+            }
+            else
+            {
+                wagonList = bestRegular;
             }
         }
 
-        private bool TryToAddAnimalToExistingWagons(Animal animal)
+        private List<Wagon> PlaceAnimalsInRegularWagonsOnly(List<Animal> animalList)
         {
-            // Try to add to experimental wagons first
-            foreach (var wagon in wagonList.OfType<ExperimentalWagon>())
+            var wagons = new List<Wagon>();
+
+            foreach (var animal in animalList)
+            {
+                Wagon bestWagon = null;
+                int bestFreePointsAfter = int.MaxValue;
+
+                foreach (var wagon in wagons.Where(w => !(w is ExperimentalWagon)))
+                {
+                    if (wagon.CanAddAnimal(animal))
+                    {
+                        int freeAfter = wagon.GetFreePoints() - animal.GetPoints();
+                        if (freeAfter < bestFreePointsAfter)
+                        {
+                            bestWagon = wagon;
+                            bestFreePointsAfter = freeAfter;
+                        }
+                    }
+                }
+
+                if (bestWagon == null)
+                {
+                    Wagon newWagon = new Wagon();
+                    newWagon.AddAnimal(animal);
+                    wagons.Add(newWagon);
+                }
+                else
+                {
+                    bestWagon.AddAnimal(animal);
+                }
+            }
+
+            return wagons;
+        }
+
+
+        private List<Wagon> TryPlacingAnimals(List<Animal> animalList)
+        {
+            List<Wagon> wagons = new List<Wagon>();
+            int experimentalCount = 0;
+
+            List<Pair> pairs = FindPairsForExperimentalWagons(animalList);
+
+            foreach (Pair pair in pairs)
+            {
+                if (experimentalCount < MaxExperimentalWagons)
+                {
+                    ExperimentalWagon expWagon = new ExperimentalWagon();
+                    expWagon.AddAnimal(pair.FirstAnimal);
+                    expWagon.AddAnimal(pair.SecondAnimal);
+                    wagons.Add(expWagon);
+                    experimentalCount++;
+
+                    animalList.Remove(pair.FirstAnimal);
+                    animalList.Remove(pair.SecondAnimal);
+                }
+            }
+
+            foreach (Animal animal in animalList)
+            {
+                Wagon bestWagon = FindBestExistingWagon(wagons, animal);
+                if (bestWagon == null)
+                {
+                    Wagon newWagon = new Wagon();
+                    newWagon.AddAnimal(animal);
+                    wagons.Add(newWagon);
+                }
+                else
+                {
+                    bestWagon.AddAnimal(animal);
+                }
+            }
+
+            return wagons;
+        }
+
+        private List<Pair> FindPairsForExperimentalWagons(List<Animal> animalList)
+        {
+            List<Pair> pairs = new List<Pair>();
+            List<int> pairedAnimals = new List<int>();
+
+            for (int i = 0; i < animalList.Count; i++)
+            {
+                if (pairedAnimals.Contains(i))
+                    continue;
+
+                Animal a = animalList[i];
+
+                if (a.GetSize() == Animal.Size.Large)
+                    continue;
+
+                for (int j = i + 1; j < animalList.Count; j++)
+                {
+                    if (pairedAnimals.Contains(j))
+                        continue;
+
+                    Animal b = animalList[j];
+
+                    if (b.GetSize() == Animal.Size.Large)
+                        continue;
+
+                    if (a.GetDiet() == Animal.Diet.Carnivore && b.GetDiet() == Animal.Diet.Carnivore)
+                    {
+                        pairs.Add(new Pair(a, b));
+                        pairedAnimals.Add(i);
+                        pairedAnimals.Add(j);
+                        break;
+                    }
+ 
+                    if ((a.GetDiet() == Animal.Diet.Carnivore && b.GetDiet() == Animal.Diet.Herbivore) ||
+                        (a.GetDiet() == Animal.Diet.Herbivore && b.GetDiet() == Animal.Diet.Carnivore))
+                    {
+                        pairs.Add(new Pair(a, b));
+                        pairedAnimals.Add(i);
+                        pairedAnimals.Add(j);
+                        break;
+                    }
+                }
+            }
+
+            return pairs;
+        }
+
+        private Wagon FindBestExistingWagon(List<Wagon> wagons, Animal animal)
+        {
+            Wagon bestWagon = null;
+            int bestFreePointsAfter = int.MaxValue;
+
+            foreach (var wagon in wagons.OrderBy(w => w is ExperimentalWagon)) 
             {
                 if (wagon.CanAddAnimal(animal))
                 {
-                    wagon.AddAnimal(animal); 
-                    return true;
+                    int freeAfter = wagon.GetFreePoints() - animal.GetPoints();
+                    if (freeAfter < bestFreePointsAfter)
+                    {
+                        bestWagon = wagon;
+                        bestFreePointsAfter = freeAfter;
+                    }
                 }
             }
 
-            // Then try to add to regular wagons
-            foreach (var wagon in wagonList.Where(w => !(w is ExperimentalWagon)))
-            {
-                if (wagon.CanAddAnimal(animal))
-                {
-                    wagon.AddAnimal(animal); 
-                    return true;
-                }
-            }
-
-            // If no existing wagon can take the animal, create a new one
-            if (experimentalWagonCount < MaxExperimentalWagons && animal.GetSize() != Animal.Size.Large)
-            {
-                var newExpWagon = new ExperimentalWagon();
-                if (newExpWagon.CanAddAnimal(animal))
-                {
-                    newExpWagon.AddAnimal(animal);
-                    wagonList.Add(newExpWagon);
-                    experimentalWagonCount++;
-                    return true;
-                }
-            }
-
-            return false;
+            return bestWagon;
         }
 
         public int GetWagonCount()

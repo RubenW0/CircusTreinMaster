@@ -53,5 +53,10 @@ namespace CircusTreinMaster
             animalsInWagon.Add(animal);
         }
 
+        public int GetFreePoints()
+        {
+            return 10 - GetTotalPoints();
+        }
+
     }
 }
