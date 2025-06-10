@@ -1,4 +1,5 @@
 ﻿using CircusTreinMaster;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestCircusTreinMaster
 {
@@ -10,20 +11,24 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 2;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 2.");
+            Assert.AreEqual(2, train.GetWagonCount(), "Expected 2 wagons.");
+            Assert.AreEqual(6, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -31,23 +36,27 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 2;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 2.");
+            Assert.AreEqual(2, train.GetWagonCount(), "Expected 2 wagons.");
+            Assert.AreEqual(9, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -55,24 +64,28 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 4;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 4.");
+            Assert.AreEqual(4, train.GetWagonCount(), "Expected 4 wagons.");
+            Assert.AreEqual(10, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -80,25 +93,29 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 5;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 5.");
+            Assert.AreEqual(5, train.GetWagonCount(), "Expected 5 wagons.");
+            Assert.AreEqual(11, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -106,19 +123,23 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Small));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Small)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 2;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 2.");
+            Assert.AreEqual(2, train.GetWagonCount(), "Expected 2 wagons.");
+            Assert.AreEqual(5, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -126,22 +147,26 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 3;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 3.");
+            Assert.AreEqual(3, train.GetWagonCount(), "Expected 3 wagons.");
+            Assert.AreEqual(8, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
@@ -149,53 +174,60 @@ namespace TestCircusTreinMaster
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Small));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Large));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Small),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Large),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 11;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 11.");
+            Assert.AreEqual(11, train.GetWagonCount(), "Expected 11 wagons.");
+            Assert.AreEqual(18, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
 
         [TestMethod]
-        public void NumberOfWagonsScenarioExperimentalWagons() 
+        public void NumberOfWagonsScenarioExperimentalWagons()
         {
             // Arrange
             var train = new Train();
-            train.animals.Add(new Animal(Animal.Diet.Carnivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
-            train.animals.Add(new Animal(Animal.Diet.Herbivore, Animal.Size.Medium));
+            var animals = new[]
+            {
+                new Animal(Animal.Diet.Carnivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium),
+                new Animal(Animal.Diet.Herbivore, Animal.Size.Medium)
+            };
+            train.animals.AddRange(animals);
 
             // Act
             train.SortAnimals();
             train.PlaceAnimalsInWagonsByOrderAndChooseTheMostEfficient();
 
             // Assert
-            int expectedWagonCount = 2;
-            Assert.AreEqual(expectedWagonCount, train.GetWagonCount(), "The number of wagons should be 2.");
+            Assert.AreEqual(2, train.GetWagonCount(), "Expected 2 wagons using experimental logic.");
+            Assert.AreEqual(5, train.GetTotalAnimalCount(), "All animals must be placed.");
         }
-
     }
 }

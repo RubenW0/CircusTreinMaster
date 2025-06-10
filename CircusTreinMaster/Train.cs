@@ -37,6 +37,7 @@ namespace CircusTreinMaster
                 .ThenBy(a => a.GetDiet() == Animal.Diet.Carnivore ? 0 : 1) // Carnivores first
                 .ToList();
 
+
             // Descending list:
             animalsDescending = animals
                 .OrderBy(a => a.GetDiet() == Animal.Diet.Carnivore ? 0 : 1) // Carnivores first
@@ -234,9 +235,16 @@ namespace CircusTreinMaster
             return bestWagon;
         }
 
+
+        // for testing purposes
         public int GetWagonCount()
         {
             return wagonList.Count;
+        }
+
+        public int GetTotalAnimalCount()
+        {
+            return wagonList.SelectMany(w => w.GetAnimals()).Count(); 
         }
 
     }
