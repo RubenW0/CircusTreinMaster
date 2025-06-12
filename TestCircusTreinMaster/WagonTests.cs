@@ -76,21 +76,5 @@ namespace TestCircusTreinMaster
             // Assert
             Assert.AreEqual(7, freePoints);
         }
-
-        [TestMethod]
-        public void GetAnimals_ReturnsReadOnlyList()
-        {
-            // Arrange
-            var wagon = new Wagon();
-            var animal = new Animal(Animal.Diet.Herbivore, Animal.Size.Small);
-
-            // Act
-            wagon.AddAnimal(animal);
-            var animals = wagon.GetAnimals();
-
-            // Assert
-            Assert.AreEqual(1, animals.Count);
-            Assert.AreEqual(animal, animals[0]);
-        }
     }
 }

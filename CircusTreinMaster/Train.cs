@@ -236,7 +236,7 @@ namespace CircusTreinMaster
         }
 
 
-        // for testing purposes
+        // voor testen
         public int GetWagonCount()
         {
             return wagonList.Count;

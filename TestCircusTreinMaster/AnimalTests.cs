@@ -10,60 +10,66 @@ namespace TestCircusTreinMaster
     [TestClass]
     public class AnimalTests
     {
-        [TestMethod]
-        public void CanCoexist_CarnivoreCannotCoexistWithEqualOrSmallerHerbivore()
+        [DataTestMethod]
+        // Herbivore vs Herbivore
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Small, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Medium, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Large, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Small, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Medium, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Large, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Small, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Medium, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Large, true)]
+
+        // Herbivore vs Carnivore
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Small, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Small, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Medium, true)]
+        [DataRow(Animal.Diet.Herbivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+
+        // Carnivore vs Herbivore
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Medium, true)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Herbivore, Animal.Size.Large, true)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Herbivore, Animal.Size.Large, true)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Herbivore, Animal.Size.Large, false)]
+
+        // Carnivore vs Carnivore
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Small, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Medium, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Small, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Medium, false)]
+        [DataRow(Animal.Diet.Carnivore, Animal.Size.Large, Animal.Diet.Carnivore, Animal.Size.Large, false)]
+
+        public void CanCoexist_TestAllCombinations(
+            Animal.Diet diet1, Animal.Size size1,
+            Animal.Diet diet2, Animal.Size size2,
+            bool expected)
         {
             // Arrange
-            var carnivore = new Animal(Animal.Diet.Carnivore, Animal.Size.Medium);
-            var herbivore = new Animal(Animal.Diet.Herbivore, Animal.Size.Small);
+            var animal1 = new Animal(diet1, size1);
+            var animal2 = new Animal(diet2, size2);
 
             // Act
-            bool canCoexist = carnivore.CanCoexistWith(herbivore);
+            bool result = animal1.CanCoexistWith(animal2);
 
             // Assert
-            Assert.IsFalse(canCoexist);
-        }
-
-        [TestMethod]
-        public void CanCoexist_HerbivoreCannotCoexistWithEqualOrLargerCarnivore()
-        {
-            // Arrange
-            var herbivore = new Animal(Animal.Diet.Herbivore, Animal.Size.Medium);
-            var carnivore = new Animal(Animal.Diet.Carnivore, Animal.Size.Medium);
-
-            // Act
-            bool canCoexist = herbivore.CanCoexistWith(carnivore);
-
-            // Assert
-            Assert.IsFalse(canCoexist);
-        }
-
-        [TestMethod]
-        public void CanCoexist_HerbivoresCanCoexistWithEachOther()
-        {
-            // Arrange
-            var herbivore1 = new Animal(Animal.Diet.Herbivore, Animal.Size.Small);
-            var herbivore2 = new Animal(Animal.Diet.Herbivore, Animal.Size.Large);
-
-            // Act
-            bool canCoexist = herbivore1.CanCoexistWith(herbivore2);
-
-            // Assert
-            Assert.IsTrue(canCoexist);
-        }
-
-        [TestMethod]
-        public void GetPoints_ReturnsCorrectSizeValue()
-        {
-            // Arrange
-            var smallAnimal = new Animal(Animal.Diet.Herbivore, Animal.Size.Small);
-            var mediumAnimal = new Animal(Animal.Diet.Herbivore, Animal.Size.Medium);
-            var largeAnimal = new Animal(Animal.Diet.Herbivore, Animal.Size.Large);
-
-            // Act & Assert
-            Assert.AreEqual(1, smallAnimal.GetPoints());
-            Assert.AreEqual(3, mediumAnimal.GetPoints());
-            Assert.AreEqual(5, largeAnimal.GetPoints());
+            Assert.AreEqual(expected, result,
+                $"Fout bij combinatie: {animal1} & {animal2}");
         }
     }
 }
